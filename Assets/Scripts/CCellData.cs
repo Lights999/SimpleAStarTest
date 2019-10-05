@@ -28,6 +28,8 @@ public enum ECellNeighborDirection
 public class CCellData : MonoBehaviour
 {
     public ECellType CellType = ECellType.Walkable;
+    public int iZ;
+    public int iX;
 
     public CCellData[] NeighborArray;
 
@@ -36,7 +38,7 @@ public class CCellData : MonoBehaviour
         NeighborArray = new CCellData[(int)ECellNeighborDirection.MaxCount];
     }
 
-    public void UpdateNeighborData(int iZ, int iX, int iZLength, int iXLength, ref CCellData[][] cellDataArray)
+    public void UpdateNeighborData(int iZLength, int iXLength, ref CCellData[][] cellDataArray)
     {
         if (iZ + 1 < iZLength)
         {

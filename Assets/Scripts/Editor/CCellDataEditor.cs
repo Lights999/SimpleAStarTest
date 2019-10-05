@@ -51,10 +51,12 @@ public class CCellDataEditor : Editor
                 _mr.sharedMaterials = matArray; 
                 break;
             case ECellType.Start:
+                gridMgr.StartCell = cellData;
                 matArray[0] = gridMgr.MStart;
                 _mr.sharedMaterials = matArray;
                 break;
             case ECellType.End:
+                gridMgr.EndCell = cellData;
                 matArray[0] = gridMgr.MEnd;
                 _mr.sharedMaterials = matArray;
                 break;

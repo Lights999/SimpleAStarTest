@@ -21,12 +21,16 @@ public class GridManager : MonoBehaviour
     public int mapSizeX=10;
     public int mapSizeZ=10;
 
+    public CCellData StartCell;
+    public CCellData EndCell;
+
     bool Refreshed;
 
     static GridManager instance;
 
-    [SerializeField]
     CCellData[][] CellArray;
+
+
 
     private void Awake()
     {
@@ -60,6 +64,9 @@ public class GridManager : MonoBehaviour
 
         Debug.Log("DrawGrid");
 
+        this.StartCell = null;
+        this.EndCell = null;
+
         ClearMap();
 
         GenerateCell();
@@ -86,6 +93,9 @@ public class GridManager : MonoBehaviour
                 {
                     _cellData = _go.AddComponent<CCellData>();
                 }
+
+                _cellData.iZ = iZ;
+                _cellData.iX = iX;
                 CellArray[iZ][iX] = _cellData;
             }
         }
@@ -99,7 +109,7 @@ public class GridManager : MonoBehaviour
             {
                 var _cellData = CellArray[iZ][iX];
 
-                _cellData.UpdateNeighborData(iZ, iX, mapSizeZ, mapSizeX, ref CellArray);
+                _cellData.UpdateNeighborData(mapSizeZ, mapSizeX, ref CellArray);
             }
         }
     }
