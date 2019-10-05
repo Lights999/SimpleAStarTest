@@ -24,11 +24,38 @@ public class GridManager : MonoBehaviour
     public CCellData StartCell;
     public CCellData EndCell;
 
+    public bool EnableDrawGizmos
+    {
+        get {
+            return enableDrawGizmos;
+        }
+
+        set
+        {
+            enableDrawGizmos = value;
+
+            if(enableDrawGizmos)
+            {
+                startP = StartCell.transform.position;
+                startP.y = 0.1f;
+
+                endP = EndCell.transform.position;
+                endP.y = 0.1f;
+            }
+
+        }
+    }
+
     bool Refreshed;
 
     static GridManager instance;
 
     CCellData[][] CellArray;
+
+    bool enableDrawGizmos;
+
+    Vector3 startP;
+    Vector3 endP;
 
 
 
@@ -72,6 +99,25 @@ public class GridManager : MonoBehaviour
         GenerateCell();
 
         UpdateCellInfo();
+    }
+
+    void OnDrawGizmos()
+    {
+        if (EnableDrawGizmos)
+        {
+            DrawPath();
+        }
+    }
+
+    void DrawPath()
+    {
+        var colorPrev = Gizmos.color;
+
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawLine(startP, endP);
+
+        Gizmos.color = colorPrev;
     }
 
     void GenerateCell()

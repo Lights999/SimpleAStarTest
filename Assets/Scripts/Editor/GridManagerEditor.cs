@@ -33,9 +33,19 @@ public class GridManagerEditor : Editor
         EditorGUILayout.Separator();
         //EditorGUILayout.BeginHorizontal();
 
-        if (GUILayout.Button("Test"))
+        if (GUILayout.Button("Init Map"))
         {
             script.DrawGrid();
+            script.EnableDrawGizmos = false;
+        }
+
+        if (GUILayout.Button("Draw Path"))
+        {
+            script.EnableDrawGizmos = true;
+            //if (script.EnableDrawGizmos == false)
+            //{
+            //    script.EnableDrawGizmos = true;
+            //}
         }
 
         //EditorGUILayout.EndHorizontal();
