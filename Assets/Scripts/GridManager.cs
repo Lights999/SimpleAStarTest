@@ -99,12 +99,15 @@ public class GridManager : MonoBehaviour
         Gizmos.color = Color.red;
 
         var _curCell = this.EndCell;
-        var _parent = this.EndCell.parentCell;
-        while (_parent != null && _curCell != null)
+        //var _parent = this.EndCell.parentCell;
+        while (_curCell != null)
         {
+            if (_curCell.parentCell == null)
+                break;
+
             var _startP = _curCell.transform.position;
             _startP.y = 0.1f;
-            var _endP = _parent.transform.position;
+            var _endP = _curCell.parentCell.transform.position;
             _endP.y = 0.1f;
             Gizmos.DrawLine(_startP, _endP);
 
