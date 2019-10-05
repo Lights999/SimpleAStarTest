@@ -62,6 +62,13 @@ public class GridManager : MonoBehaviour
 
         ClearMap();
 
+        GenerateCell();
+
+        UpdateCellInfo();
+    }
+
+    void GenerateCell()
+    {
         CellArray = new CCellData[mapSizeZ][];
 
         for (int iZ = 0; iZ < mapSizeZ; iZ++)
@@ -70,7 +77,7 @@ public class GridManager : MonoBehaviour
 
             for (int iX = 0; iX < mapSizeX; iX++)
             {
-                var _go = Instantiate(PCell, rootTransform,false);
+                var _go = Instantiate(PCell, rootTransform, false);
                 _go.transform.localPosition = new Vector3(iX, 0, iZ);
                 _go.SetActive(true);
 
@@ -80,6 +87,19 @@ public class GridManager : MonoBehaviour
                     _cellData = _go.AddComponent<CCellData>();
                 }
                 CellArray[iZ][iX] = _cellData;
+            }
+        }
+    }
+    void UpdateCellInfo()
+    {
+        for (int iZ = 0; iZ < mapSizeZ; iZ++)
+        {
+
+            for (int iX = 0; iX < mapSizeX; iX++)
+            {
+                var _cellData = CellArray[iZ][iX];
+
+                _cellData.UpdateNeighborData(iZ, iX, mapSizeZ, mapSizeX, ref CellArray);
             }
         }
     }
