@@ -6,6 +6,14 @@ using UnityEditor;
 [CustomEditor(typeof(GridManager))]
 public class GridManagerEditor : Editor
 {
+    public static GridManager ScriptTarget
+    {
+        get
+        {
+            return script;
+        }
+    }
+
     void Awake()
     {
         script = (GridManager)target;
@@ -13,6 +21,7 @@ public class GridManagerEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        script = (GridManager)target;
 
         DrawDefaultInspector();
 
@@ -28,5 +37,5 @@ public class GridManagerEditor : Editor
         //EditorGUILayout.EndHorizontal();
     }
 
-    GridManager script;
+    static GridManager script;
 }

@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager Instance
+    {
+        get {
+            return instance;
+        }
+    }
+
     public Material MWalkable;
     public Material MObstacle;
     public Material MStart;
@@ -14,6 +21,17 @@ public class GridManager : MonoBehaviour
     public int mapSizeX=10;
     public int mapSizeZ=10;
 
+    bool Refreshed;
+
+    static GridManager instance;
+
+    [SerializeField]
+    CCellData[][] CellArray;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     //public Material MPath;
     //// Start is called before the first frame update
@@ -44,13 +62,24 @@ public class GridManager : MonoBehaviour
 
         ClearMap();
 
+        CellArray = new CCellData[mapSizeZ][];
+
         for (int iZ = 0; iZ < mapSizeZ; iZ++)
         {
+            CellArray[iZ] = new CCellData[mapSizeX];
+
             for (int iX = 0; iX < mapSizeX; iX++)
             {
                 var _go = Instantiate(PCell, rootTransform,false);
                 _go.transform.localPosition = new Vector3(iX, 0, iZ);
                 _go.SetActive(true);
+
+                CCellData _cellData = _go.GetComponent<CCellData>();
+                if (_cellData == null)
+                {
+                    _cellData = _go.AddComponent<CCellData>();
+                }
+                CellArray[iZ][iX] = _cellData;
             }
         }
     }
@@ -70,8 +99,10 @@ public class GridManager : MonoBehaviour
         {
             DestroyImmediate(rootTransform.GetChild(0).gameObject);
         }
+
+        CellArray = null;
     }
 
 
-    bool Refreshed;
+
 }
