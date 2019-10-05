@@ -10,6 +10,10 @@ public class GridManagerEditor : Editor
     {
         get
         {
+            if (script == null)
+            {
+                script = GameObject.FindObjectOfType<GridManager>();
+            }
             return script;
         }
     }

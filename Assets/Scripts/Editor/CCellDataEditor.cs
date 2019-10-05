@@ -35,7 +35,6 @@ public class CCellDataEditor : Editor
 
     void ChangeCellType(CCellData cellData)
     {
-
         var gridMgr = GridManagerEditor.ScriptTarget;
         
         var _mr = cellData.GetComponent<MeshRenderer>();
