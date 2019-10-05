@@ -25,6 +25,13 @@ public enum ECellNeighborDirection
     MaxCount
 }
 
+public enum EStoredState
+{
+    None,
+    OpenList,
+    CloseList
+}
+
 public class CCellData : MonoBehaviour
 {
     public ECellType CellType = ECellType.Walkable;
@@ -33,16 +40,26 @@ public class CCellData : MonoBehaviour
 
     public CCellData[] NeighborArray;
 
+    public int F;//F = G+H
+    public int G;
+    public int H;
+
+    public CCellData parentCell;
+
+    public EStoredState StoredState;
+
     public CCellData()
     {
         NeighborArray = new CCellData[(int)ECellNeighborDirection.MaxCount];
+
+        ClearSearchData();
     }
 
-    public void UpdateNeighborData(int iZLength, int iXLength, ref CCellData[][] cellDataArray)
+    public void UpdateNeighborData(int iZLength, int iXLength, ref CCellData[,] cellDataArray)
     {
         if (iZ + 1 < iZLength)
         {
-            NeighborArray[(int)ECellNeighborDirection.Up] = cellDataArray[iZ + 1][iX];
+            NeighborArray[(int)ECellNeighborDirection.Up] = cellDataArray[iZ + 1,iX];
         }
         else
         {
@@ -51,7 +68,7 @@ public class CCellData : MonoBehaviour
 
         if (iZ - 1 >= 0)
         {
-            NeighborArray[(int)ECellNeighborDirection.Down] = cellDataArray[iZ - 1][iX];
+            NeighborArray[(int)ECellNeighborDirection.Down] = cellDataArray[iZ - 1,iX];
         }
         else
         {
@@ -60,7 +77,7 @@ public class CCellData : MonoBehaviour
 
         if (iX - 1 >= 0)
         {
-            NeighborArray[(int)ECellNeighborDirection.Left] = cellDataArray[iZ][iX - 1];
+            NeighborArray[(int)ECellNeighborDirection.Left] = cellDataArray[iZ,iX - 1];
         }
         else
         {
@@ -69,7 +86,7 @@ public class CCellData : MonoBehaviour
 
         if (iX + 1 < iXLength)
         {
-            NeighborArray[(int)ECellNeighborDirection.Right] = cellDataArray[iZ][iX + 1];
+            NeighborArray[(int)ECellNeighborDirection.Right] = cellDataArray[iZ,iX + 1];
         }
         else
         {
@@ -79,7 +96,7 @@ public class CCellData : MonoBehaviour
 
         if (iX - 1 >= 0 && iZ + 1 < iZLength)
         {
-            NeighborArray[(int)ECellNeighborDirection.LeftUp] = cellDataArray[iZ + 1][iX - 1];
+            NeighborArray[(int)ECellNeighborDirection.LeftUp] = cellDataArray[iZ + 1,iX - 1];
         }
         else
         {
@@ -88,7 +105,7 @@ public class CCellData : MonoBehaviour
 
         if (iX + 1 < iXLength && iZ + 1 < iZLength)
         {
-            NeighborArray[(int)ECellNeighborDirection.RightUp] = cellDataArray[iZ + 1][iX + 1];
+            NeighborArray[(int)ECellNeighborDirection.RightUp] = cellDataArray[iZ + 1,iX + 1];
         }
         else
         {
@@ -97,7 +114,7 @@ public class CCellData : MonoBehaviour
 
         if (iX - 1 >= 0 && iZ - 1 >= 0)
         {
-            NeighborArray[(int)ECellNeighborDirection.LeftDown] = cellDataArray[iZ - 1][iX - 1];
+            NeighborArray[(int)ECellNeighborDirection.LeftDown] = cellDataArray[iZ - 1,iX - 1];
         }
         else
         {
@@ -106,12 +123,21 @@ public class CCellData : MonoBehaviour
 
         if (iX + 1 < iXLength && iZ - 1 >= 0)
         {
-            NeighborArray[(int)ECellNeighborDirection.RightDown] = cellDataArray[iZ - 1][iX + 1];
+            NeighborArray[(int)ECellNeighborDirection.RightDown] = cellDataArray[iZ - 1,iX + 1];
         }
         else
         {
             NeighborArray[(int)ECellNeighborDirection.RightDown] = null;
         }
 
+    }
+
+    public void ClearSearchData()
+    {
+        this.F = 0;
+        this.G = 0;
+        this.H = 0;
+        this.parentCell = null;
+        this.StoredState = EStoredState.None;
     }
 }

@@ -39,6 +39,11 @@ public class GridManagerEditor : Editor
             script.EnableDrawGizmos = false;
         }
 
+        if (GUILayout.Button("Caculate Path"))
+        {
+            bool result = script.AStarSearch();
+        }
+
         if (GUILayout.Button("Draw Path"))
         {
             script.EnableDrawGizmos = true;
